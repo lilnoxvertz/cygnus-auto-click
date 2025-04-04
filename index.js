@@ -3,32 +3,30 @@
         return Math.floor(Math.random() * (max - min + 1)) + min
     }
 
-    const interval = getRandomNumber(250, 500)
-
     function simulateMouse(x, y) {
         const element = document.elementFromPoint(x, y)
 
         const click = new PointerEvent('pointerdown', {
             bubbles: true,
             cancelable: true,
-            view: window,
             clientX: x,
             clientY: y
         })
 
         if (element) {
             element.dispatchEvent(click)
-            console.log(`clicked ${element} at x: ${x}, y: ${y}`)
-            console.log(`time between click ${interval}ms`)
+            console.log(`clicking at x: ${x}, y: ${y}`)
         }
     }
 
     async function start() {
+        const delay = getRandomNumber(250, 1000) //atur delay disini 250 = minimal, 500 - max
         const x = getRandomNumber(600, 920)
         const y = getRandomNumber(130, 490)
-
-        simulateMouse(x, y)
+        await simulateMouse(x, y)
+        setTimeout(start, delay)
+        console.log(`time between click: ${delay}`)
     }
 
-    setInterval(start, interval)
+    start()
 })()
